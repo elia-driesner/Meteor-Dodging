@@ -72,13 +72,9 @@ class Floor(pygame.sprite.Sprite):
 
 player = Player()
 
-floor_list = []
-floor_list.append(Floor())
-floor_list.append(Floor())
-floor_list.append(Floor())
-floor_list.append(Floor())
-floor_list.append(Floor())
-floor_list.append(Floor())
+meteor_list = []
+for i in range(0, 8):
+    floor_list.append(Floor())
 
 last_key = "up"
 
@@ -111,13 +107,13 @@ while run:
     player.move()
     wn.fill((0, 0, 0))
     wn.blit(player.image, (player.x, player.y))
-    for enemy in floor_list:
-        enemy.move()
-        wn.blit(enemy.image, (enemy.x, enemy.y))
-        slime_sprite = pygame.sprite.GroupSingle(enemy)
+    for meteor in meteor_list:
+        meteor.move()
+        wn.blit(meteor.image, (meteor.x, meteor.y))
+        meteor_sprite = pygame.sprite.GroupSingle(meteor)
         player_group = pygame.sprite.GroupSingle(player)
 
-        if pygame.sprite.spritecollide(player_group.sprite, slime_sprite, False, pygame.sprite.collide_mask):
+        if pygame.sprite.spritecollide(player_group.sprite, meteor_sprite, False, pygame.sprite.collide_mask):
             print("You Lose")
             run = False
             pygame.quit()
