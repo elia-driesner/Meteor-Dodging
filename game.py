@@ -21,6 +21,8 @@ class Player(pygame.sprite.Sprite):
         self.mask = pygame.mask.from_surface(self.image)
         self.x = 100
         self.y = 100
+        
+        self.lifes = 3
 
     def move(self):
         key = pygame.key.get_pressed()
@@ -74,7 +76,7 @@ player = Player()
 
 meteor_list = []
 for i in range(0, 8):
-    floor_list.append(Floor())
+    meteor_list.append(Floor())
 
 last_key = "up"
 
@@ -102,10 +104,10 @@ while run:
 
     spawn = random.randint(70, 110)
     if spawn == 100:
-        floor_list.append(Floor())
+        meteor_list.append(Floor())
 
     player.move()
-    wn.fill((0, 0, 0))
+    wn.fill((0, 0, 0))    
     wn.blit(player.image, (player.x, player.y))
     for meteor in meteor_list:
         meteor.move()
@@ -114,14 +116,14 @@ while run:
         player_group = pygame.sprite.GroupSingle(player)
 
         if pygame.sprite.spritecollide(player_group.sprite, meteor_sprite, False, pygame.sprite.collide_mask):
-            print("You Lose")
-            run = False
-            pygame.quit()
+            player.lifes -= 1
+            if player.lifes == 0:
+                run = False                                  
         else:
             if gravity == "down":
-                player.y += player.vel / len(floor_list)
+                player.y += player.vel / len(meteor_list)
             else:
-                player.y -= player.vel / len(floor_list)
+                player.y -= player.vel / len(meteor_list)
 
 
 
